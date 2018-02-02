@@ -88,7 +88,6 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaDirect: 0.5
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
-    m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -162,7 +161,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.24264705, g: 0.24264705, b: 0.24264705, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -173,7 +172,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 2.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -184,7 +183,6 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -229,9 +227,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d69b838d4588e4f3b9370b9a3d3674dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseTile: {fileID: 1561172440346684, guid: e1bab394160f4417abef27f26ea67bc3, type: 2}
-  tilesX: 5
-  tilesY: 4
+  tile:
+  - {fileID: 1561172440346684, guid: 9239d2e764089304eaf2e880b6819134, type: 2}
+  - {fileID: 1561172440346684, guid: e1bab394160f4417abef27f26ea67bc3, type: 2}
+  - {fileID: 1561172440346684, guid: fa9268d7587123249bc287d9da5c6ae5, type: 2}
+  - {fileID: 1561172440346684, guid: 2046d6d1900325d4881d9c8937c1898a, type: 2}
 --- !u!4 &2086666658
 Transform:
   m_ObjectHideFlags: 0
