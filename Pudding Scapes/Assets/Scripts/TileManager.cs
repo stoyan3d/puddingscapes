@@ -6,6 +6,7 @@ public class TileManager : MonoBehaviour
 {
     public float transitionTime = 1f;
     public GameObject baseTile;
+    public GameObject player;
     public GameObject[] tile;
     List<GameObject> tileBank = new List<GameObject>();
 

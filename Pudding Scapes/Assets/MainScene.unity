@@ -113,6 +113,47 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &198861555
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 198861557}
+  - component: {fileID: 198861556}
+  m_Layer: 0
+  m_Name: Tiles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &198861556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 198861555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c69e8d76a30d362459f28d956a2bc5b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseTile: {fileID: 21300000, guid: b605f97f365cdb64694ca3e601f44f4b, type: 3}
+--- !u!4 &198861557
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 198861555}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1216555828
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,6 +252,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2086666658}
   - component: {fileID: 2086666657}
+  - component: {fileID: 2086666659}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -224,13 +266,14 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2086666656}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d69b838d4588e4f3b9370b9a3d3674dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   transitionTime: 10
   baseTile: {fileID: 1776745474378992, guid: 56350c538d443164fb41c01654bccbb4, type: 2}
+  player: {fileID: 1106206544670782, guid: 9422f0f07f29d7e498904f167b748053, type: 2}
   tile:
   - {fileID: 1561172440346684, guid: 9239d2e764089304eaf2e880b6819134, type: 2}
   - {fileID: 1561172440346684, guid: e1bab394160f4417abef27f26ea67bc3, type: 2}
@@ -249,3 +292,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2086666659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2086666656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe3314941ac0934c929de7288c20661, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldWidth: 6
+  worldHeigh: 4
