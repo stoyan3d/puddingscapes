@@ -41,7 +41,7 @@ public class TileManager : MonoBehaviour
         {
             for (int c = 0; c < cols; c++)
             {
-                Vector3 position = new Vector3(c - cols / 2, r - rows / 2, 0);
+                Vector3 position = new Vector3(c, r, 0);
                 // spawn the background tiles
                 Instantiate(baseTile, position, baseTile.transform.rotation);
 
@@ -104,12 +104,32 @@ public class TileManager : MonoBehaviour
 
             if (tile1 && tile2)
             {
-                coroutine = SwapTiles(tile1, tile2, transitionTime);
-                StartCoroutine(coroutine);
+                Vector3 tile1Pos = tile1.transform.position;
+                Vector3 tile2Pos = tile2.transform.position;
 
-                // reset the touched tiles
-                tile1 = null;
-                tile2 = null;
+                int distX = (int)Mathf.Abs(tile1Pos.x - tile2Pos.x);
+                int distY = (int)Mathf.Abs(tile1Pos.y - tile2Pos.y);
+
+                // if tiles are not adjacent return
+                if (distX == 1 ^ distY == 1)
+                {
+                    // swap the tiles in our matrix as well
+                    TileSlot tempTile = tiles[(int)tile1Pos.x, (int)tile1Pos.y];
+                    tiles[(int)tile1Pos.x, (int)tile1Pos.y] = tiles[(int)tile2Pos.x, (int)tile2Pos.y];
+                    tiles[(int)tile2Pos.x, (int)tile2Pos.y] = tempTile;
+
+                    coroutine = SwapTiles(tile1, tile2, transitionTime);
+                    StartCoroutine(coroutine);
+
+                    // reset the touched tiles
+                    tile1 = null;
+                    tile2 = null;
+                }
+                else
+                {
+                    Debug.Log("Tiles are not adjacent");
+                }
+                
             }
         }
     }
