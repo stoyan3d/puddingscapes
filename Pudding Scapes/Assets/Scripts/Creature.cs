@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class Creature : ScriptableObject {
 
-    public string name;
+    public new string name;
     public Sprite image;
 }

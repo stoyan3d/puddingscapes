@@ -9,15 +9,15 @@ public class TileManager : MonoBehaviour
     public GameObject[] tile;
     List<GameObject> tileBank = new List<GameObject>();
 
-    static int rows = 4;
-    static int cols = 6;
+    private static int rows = 4;
+    private static int cols = 6;
 
-    GameObject tile1 = null;
-    GameObject tile2 = null;
+    private GameObject tile1 = null;
+    private GameObject tile2 = null;
 
-    TileSlot[,] tiles = new TileSlot[cols, rows];
-
+    private TileSlot[,] tiles = new TileSlot[cols, rows];
     private IEnumerator coroutine;
+    private bool renewBoard;
     
     // Use this for initialization
     void Start()
@@ -78,6 +78,7 @@ public class TileManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CheckGrid();
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -143,6 +144,81 @@ public class TileManager : MonoBehaviour
             tile1.transform.position = Vector3.Lerp(tile1.transform.position, tile1Target, transitionTime * Time.deltaTime);
             tile2.transform.position = Vector3.Lerp(tile2.transform.position, tile2Target, transitionTime * Time.deltaTime);
             yield return null;
+        }
+    }
+
+    void CheckGrid()
+    {
+        int counter = 1;
+        // check in columns
+        for (int r = 0; r < rows; r++)
+        {
+            counter = 1;
+            for (int c = 1; c < cols; c++)
+            {
+                if(tiles[c, r] != null && tiles[c - 1, r] != null)
+                {
+                    // if the tiles exist
+                    if (tiles[c, r].type == tiles[c - 1, r].type)
+                    {
+                        counter++;
+                    }
+                    else
+                        counter = 1;
+                    if(counter == 3)
+                    {
+                        if (tiles[c, r] != null)
+                            tiles[c, r].tileObj.SetActive(false);
+                        if (tiles[c - 1, r] != null)
+                            tiles[c - 1, r].tileObj.SetActive(false);
+                        if (tiles[c - 2, r] != null)
+                            tiles[c - 2, r].tileObj.SetActive(false);
+                        tiles[c, r] = null;
+                        tiles[c - 1, r] = null;
+                        tiles[c - 2, r] = null;
+                        renewBoard = true;
+                    }
+                }
+            }
+        }
+
+
+        // check in columns
+        for (int c = 0; c < cols; c++)
+        {
+            counter = 1;
+            for (int r = 1; r < rows; r++)
+            {
+                if (tiles[c, r] != null && tiles[c, r - 1] != null)
+                {
+                    // if the tiles exist
+                    if (tiles[c, r].type == tiles[c, r - 1].type)
+                    {
+                        counter++;
+                    }
+                    else
+                        counter = 1;
+                    if (counter == 3)
+                    {
+                        if (tiles[c, r] != null)
+                            tiles[c, r].tileObj.SetActive(false);
+                        if (tiles[c, r - 1] != null)
+                            tiles[c, r - 1].tileObj.SetActive(false);
+                        if (tiles[c, r - 2] != null)
+                            tiles[c, r - 2].tileObj.SetActive(false);
+                        tiles[c, r] = null;
+                        tiles[c, r - 1] = null;
+                        tiles[c, r - 2] = null;
+                        renewBoard = true;
+                    }
+                }
+            }
+        }
+
+        if (renewBoard)
+        {
+            //RenewGrid();
+            renewBoard = false;
         }
     }
 }
