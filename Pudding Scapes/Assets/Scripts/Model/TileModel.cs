@@ -15,4 +15,18 @@ public class TileModel
         X = x;
         Y = y;
     }
+
+    public TileModel[] GetNeighbours()
+    {
+        TileModel[] neighbours;
+        neighbours = new TileModel[4];
+
+        // Neighbours can be null so we need to check for that
+        neighbours[0] = WorldModel.Instance.GetTileAt(X, Y + 1); // north
+        neighbours[1] = WorldModel.Instance.GetTileAt(X, Y - 1); // south
+        neighbours[2] = WorldModel.Instance.GetTileAt(X + 1, Y); // west
+        neighbours[3] = WorldModel.Instance.GetTileAt(X - 1, Y); // east
+
+        return neighbours;
+    }
 }

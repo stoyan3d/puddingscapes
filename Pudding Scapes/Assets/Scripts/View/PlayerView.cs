@@ -22,7 +22,13 @@ public class PlayerView : MonoBehaviour {
 
         // Set up the GameObject
         charGo.name = "Player";
-        charGo.transform.position = new Vector3(player.Tile.X, player.Tile.Y, 0);
+        if (player.Tile != null)
+        {
+            charGo.transform.position = new Vector3(player.Tile.X, player.Tile.Y, 0);
+        }
+        else
+            charGo.SetActive(false);
+
         charGo.transform.SetParent(transform, true);
 
         // Set up the sprite renderer

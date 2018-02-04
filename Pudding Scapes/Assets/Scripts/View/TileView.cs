@@ -35,5 +35,28 @@ public class TileView : MonoBehaviour {
                 sr.sortingLayerName = "Tiles";
             }
         }
-	}
+
+        World.onTurnUpdateCallback += VisualizeAvailableTiles;
+    }
+
+
+    // Not sure if this is efficient
+    private void VisualizeAvailableTiles()
+    {
+        for (int x = 0; x < World.Width; x++)
+        {
+            for (int y = 0; y < World.Height; y++)
+            {
+                TileModel tileData = World.GetTileAt(x, y);
+                for (int i = 0; i < World.validMoveTiles.Length; i++)
+                {
+                    if (tileData == World.validMoveTiles[i])
+                    {
+                        SpriteRenderer sr = tileGameObjectMap[tileData].GetComponent<SpriteRenderer>();
+                        sr.color = Color.green;
+                    }
+                }
+            }
+        }
+    }
 }

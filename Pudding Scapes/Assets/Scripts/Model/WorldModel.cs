@@ -12,6 +12,10 @@ public class WorldModel {
 
     public int Turn { get; protected set; }
 
+    public TileModel[] validMoveTiles;
+
+    public static WorldModel Instance { get; protected set; }
+
     public delegate void OnTurnUpdate();
     public OnTurnUpdate onTurnUpdateCallback;
 
@@ -19,11 +23,13 @@ public class WorldModel {
     public OnCharacterCreated onCharacterCreatedCallback;
 
     private TileModel[,] tiles;
-    //private PlayerModel player;
+    private PlayerModel player;
 
     public WorldModel(int width, int height)
     {
-        Turn = 0;
+        Instance = this;
+
+        Turn = -1;
 
         Width = width;
         Height = height;
@@ -54,6 +60,9 @@ public class WorldModel {
     {
         Turn += 1;
 
+        // Update our valid move tiles
+        validMoveTiles = player.GetValidMoveTiles();
+
         if (onTurnUpdateCallback != null)
             onTurnUpdateCallback.Invoke();
     }
@@ -63,7 +72,7 @@ public class WorldModel {
         Debug.Log("CreateCharacter");
 
         PlayerModel p = new PlayerModel(t);
-        //player = p;
+        player = p;
 
         if (onCharacterCreatedCallback != null)
             onCharacterCreatedCallback.Invoke(p);

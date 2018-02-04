@@ -27,7 +27,8 @@ public class WorldController : MonoBehaviour {
     private void Start()
     {
         // Create a character
-        World.CreateCharacter(World.GetTileAt(1, 1));
+        World.CreateCharacter(null);
+        World.AdvanceTurn();
     }
 
     // Update is called once per frame
