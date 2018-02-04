@@ -13,16 +13,25 @@ public class WorldController : MonoBehaviour {
 	// Use this for initialization
 	void OnEnable () {
         if (instance != null)
+        {
             Debug.LogError("There should be only one instance of world controller");
+            return;
+        }  
 
         instance = this;
 
         // Create the world
         World = new WorldModel(worldWidth, worldHeigh);
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void Start()
+    {
+        // Create a character
+        World.CreateCharacter(World.GetTileAt(1, 1));
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 }

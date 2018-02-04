@@ -10,10 +10,21 @@ public class WorldModel {
     // The tile height of the world
     public int Height { get; protected set; }
 
+    public int Turn { get; protected set; }
+
+    public delegate void OnTurnUpdate();
+    public OnTurnUpdate onTurnUpdateCallback;
+
+    public delegate void OnCharacterCreated(PlayerModel player);
+    public OnCharacterCreated onCharacterCreatedCallback;
+
     private TileModel[,] tiles;
+    //private PlayerModel player;
 
     public WorldModel(int width, int height)
     {
+        Turn = 0;
+
         Width = width;
         Height = height;
 
@@ -37,5 +48,26 @@ public class WorldModel {
         }
 
         return tiles[x, y];
+    }
+
+    public void AdvanceTurn()
+    {
+        Turn += 1;
+
+        if (onTurnUpdateCallback != null)
+            onTurnUpdateCallback.Invoke();
+    }
+
+    public PlayerModel CreateCharacter(TileModel t)
+    {
+        Debug.Log("CreateCharacter");
+
+        PlayerModel p = new PlayerModel(t);
+        //player = p;
+
+        if (onCharacterCreatedCallback != null)
+            onCharacterCreatedCallback.Invoke(p);
+
+        return p;
     }
 }
