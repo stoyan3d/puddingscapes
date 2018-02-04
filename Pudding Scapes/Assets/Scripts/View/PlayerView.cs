@@ -36,4 +36,11 @@ public class PlayerView : MonoBehaviour {
         sr.sprite = playerSprite;
         sr.sortingLayerName = "Characters";
     }
+
+    public void OnCharacterMoved(PlayerModel player)
+    {
+        GameObject charGo = characterGameObjectMap[player];
+        charGo.SetActive(true);
+        charGo.transform.position = new Vector3(player.Tile.X, player.Tile.Y, 0);
+    }
 }

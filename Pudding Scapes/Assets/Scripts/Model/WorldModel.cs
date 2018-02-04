@@ -22,8 +22,11 @@ public class WorldModel {
     public delegate void OnCharacterCreated(PlayerModel player);
     public OnCharacterCreated onCharacterCreatedCallback;
 
+    public delegate void OnCharacterMoved(PlayerModel player);
+    public OnCharacterMoved onCharacterMovedCallback;
+
     private TileModel[,] tiles;
-    private PlayerModel player;
+    public PlayerModel player { get; protected set; }
 
     public WorldModel(int width, int height)
     {
@@ -78,5 +81,10 @@ public class WorldModel {
             onCharacterCreatedCallback.Invoke(p);
 
         return p;
+    }
+
+    public void MoveCharacter()
+    {
+
     }
 }
