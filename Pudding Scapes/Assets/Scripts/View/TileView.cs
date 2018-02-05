@@ -48,12 +48,16 @@ public class TileView : MonoBehaviour {
             for (int y = 0; y < World.Height; y++)
             {
                 TileModel tileData = World.GetTileAt(x, y);
+                SpriteRenderer sr = tileGameObjectMap[tileData].GetComponent<SpriteRenderer>();
+                sr.color = Color.white;
                 for (int i = 0; i < World.validMoveTiles.Length; i++)
                 {
-                    if (tileData == World.validMoveTiles[i])
+                    if (World.validMoveTiles[i] != null)
                     {
-                        SpriteRenderer sr = tileGameObjectMap[tileData].GetComponent<SpriteRenderer>();
-                        sr.color = Color.green;
+                        if (tileData == World.validMoveTiles[i])
+                        {
+                            sr.color = Color.green;
+                        }
                     }
                 }
             }

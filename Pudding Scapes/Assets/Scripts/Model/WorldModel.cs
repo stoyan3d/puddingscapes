@@ -46,17 +46,32 @@ public class WorldModel {
                 tiles[x, y] = new TileModel(x, y);
             }
         }
+
+        validMoveTiles = GetValidPlayerSpawnTiles();
     }
 
     public TileModel GetTileAt(int x, int y)
     {
         if (x >= Width || x < 0 || y >= Height || y < 0)
         {
-            Debug.LogError("Tile ("+x+","+y+") is out of range.");
+            //Debug.LogError("Tile ("+x+","+y+") is out of range.");
             return null;
         }
 
         return tiles[x, y];
+    }
+
+    public TileModel[] GetValidPlayerSpawnTiles()
+    {
+        // We can place the cahracter on the top row in our first turn
+        TileModel[] startingTiles = new TileModel[Width];
+
+        for (int i = 0; i < Width; i++)
+        {
+            startingTiles[i] = GetTileAt(i, Height - 1);
+        }
+
+        return startingTiles;
     }
 
     public void AdvanceTurn()
@@ -64,7 +79,8 @@ public class WorldModel {
         Turn += 1;
 
         // Update our valid move tiles
-        validMoveTiles = player.GetValidMoveTiles();
+        if (player != null)
+            validMoveTiles = player.GetValidMoveTiles();
 
         if (onTurnUpdateCallback != null)
             onTurnUpdateCallback.Invoke();
@@ -73,14 +89,22 @@ public class WorldModel {
     public PlayerModel CreateCharacter(TileModel t)
     {
         Debug.Log("CreateCharacter");
+        for (int i = 0; i < validMoveTiles.Length; i++)
+        {
+            if (t == validMoveTiles[i])
+            {
+                PlayerModel p = new PlayerModel(t);
+                player = p;
 
-        PlayerModel p = new PlayerModel(t);
-        player = p;
+                if (onCharacterCreatedCallback != null)
+                    onCharacterCreatedCallback.Invoke(p);
 
-        if (onCharacterCreatedCallback != null)
-            onCharacterCreatedCallback.Invoke(p);
+                AdvanceTurn();
 
-        return p;
+                return p;
+            }
+        }
+        return null;
     }
 
     public void MoveCharacter()

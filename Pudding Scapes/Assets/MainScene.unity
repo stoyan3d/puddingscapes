@@ -88,7 +88,6 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaDirect: 0.5
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
-    m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -249,8 +248,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 975105269}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1280, y: 720, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1801827449}
   m_Father: {fileID: 0}
@@ -332,7 +331,6 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -477,7 +475,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1801827448}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1261.6, y: 708.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 975105274}
@@ -485,7 +483,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 18.4, y: -11.5}
+  m_AnchoredPosition: {x: 18.400024, y: -11.5}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1801827450
@@ -535,8 +533,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 2086666658}
-  - component: {fileID: 2086666657}
   - component: {fileID: 2086666659}
+  - component: {fileID: 2086666657}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -550,19 +548,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2086666656}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d69b838d4588e4f3b9370b9a3d3674dd, type: 3}
+  m_Script: {fileID: 11500000, guid: c4f326605328cb745a52cf20e643f6f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transitionTime: 10
-  baseTile: {fileID: 1776745474378992, guid: 56350c538d443164fb41c01654bccbb4, type: 2}
-  player: {fileID: 1106206544670782, guid: 9422f0f07f29d7e498904f167b748053, type: 2}
-  tile:
-  - {fileID: 1561172440346684, guid: 9239d2e764089304eaf2e880b6819134, type: 2}
-  - {fileID: 1561172440346684, guid: e1bab394160f4417abef27f26ea67bc3, type: 2}
-  - {fileID: 1561172440346684, guid: fa9268d7587123249bc287d9da5c6ae5, type: 2}
-  - {fileID: 1561172440346684, guid: 2046d6d1900325d4881d9c8937c1898a, type: 2}
 --- !u!4 &2086666658
 Transform:
   m_ObjectHideFlags: 0

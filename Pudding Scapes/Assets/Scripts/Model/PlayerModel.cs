@@ -29,19 +29,7 @@ public class PlayerModel {
 
     public TileModel[] GetValidMoveTiles()
     {
-        // We can place the cahracter on the top row in our first turn
-        if (WorldModel.Instance.Turn == 0)
-        {
-            TileModel[] startingTiles = new TileModel[World.Width];
-
-            for (int i = 0; i < World.Width; i++)
-            {
-                startingTiles[i] = World.GetTileAt(i, World.Height - 1);
-            }
-
-            return startingTiles;
-        }
-        else if (World.Turn > 0)
+        if (World.Turn > 0)
         {
             return Tile.GetNeighbours();
         }

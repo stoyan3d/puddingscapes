@@ -5,16 +5,17 @@ using UnityEngine;
 public class MouseController : MonoBehaviour {
 
     PlayerModel player;
+    WorldModel World { get { return WorldController.instance.World; } }
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         player = WorldController.instance.World.player;
 
     }
 	
 	// Update is called once per frame
 	void Update () {
-		
+        UpdatePlayerMovement();
 	}
 
     void UpdatePlayerMovement()
@@ -22,7 +23,12 @@ public class MouseController : MonoBehaviour {
         if (Input.GetMouseButtonUp(0))
         {
             TileModel currTile = GetMouseOverTile();
-            if (player.Tile != currTile)
+            // Spawn the player in our frist turn
+            if (player == null)
+            {
+                World.CreateCharacter(currTile);
+            }
+            else if (player.Tile != currTile)
             {
                 player.MoveToTile(currTile);
             }
