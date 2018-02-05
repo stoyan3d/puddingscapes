@@ -182,9 +182,8 @@ public class WorldModel {
         if (GameWon || GameLost)
             return;
 
-        Player.MoveToTile(t);
-
-        AdvanceTurn();
+        if (Player.MoveToTile(t))
+            AdvanceTurn();
 
         if (onCharacterMovedCallback != null)
             onCharacterMovedCallback.Invoke(Player);
