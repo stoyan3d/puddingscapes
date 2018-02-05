@@ -37,11 +37,25 @@ public class EnemyModel {
             Strength += 1;
         }
 
-        if (Strength == MaxStrength && !Enraged)
+        UpdateRage();
+    }
+
+    public void ReceiveDamage(int damage)
+    {
+        Strength -= damage;
+
+        UpdateRage();
+    }
+
+    private void UpdateRage()
+    {
+        if (Strength == MaxStrength)
         {
+            //Debug.Log(Tile.X + "_" + Tile.Y + "_" + "Rage!");
             Enraged = true;
         }
-            
+        else
+            Enraged = false;
     }
 
     public bool CanGrow()

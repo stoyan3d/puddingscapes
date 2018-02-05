@@ -134,7 +134,7 @@ public class WorldModel {
 
     public PlayerModel CreateCharacter(TileModel tile)
     {
-        Debug.Log("CreateCharacter");
+        // Debug.Log("CreateCharacter");
         for (int i = 0; i < validMoveTiles.Length; i++)
         {
             if (tile == validMoveTiles[i])

@@ -44,9 +44,7 @@ public class EnemyView : MonoBehaviour {
 
     private void OnEnemyKilled(EnemyModel enemy)
     {
-        vfx.transform.position = new Vector3((float)enemy.Tile.X + 0.5f, (float)enemy.Tile.Y + 0.5f, -1);
-        vfx.gameObject.SetActive(true);
-        vfx.Play();
+        PlayVFX(enemy);
         Destroy(characterGameObjectMap[enemy]);
         characterGameObjectMap.Remove(enemy);
     }
@@ -58,6 +56,10 @@ public class EnemyView : MonoBehaviour {
             if (enemy.Key.Enraged)
             {
                 enemy.Value.sprite = GetSprite(enemy.Key.Type.ToString(), "2");
+            }
+            else
+            {
+                enemy.Value.sprite = GetSprite(enemy.Key.Type.ToString(), "1");
             }
         }
     }
@@ -73,5 +75,12 @@ public class EnemyView : MonoBehaviour {
 
         Debug.LogWarning("Could not find sprite: " + spriteName);
         return null;
+    }
+
+    private void PlayVFX(EnemyModel enemy)
+    {
+        vfx.transform.position = new Vector3((float)enemy.Tile.X + 0.5f, (float)enemy.Tile.Y + 0.5f, -1);
+        vfx.gameObject.SetActive(true);
+        vfx.Play();
     }
 }

@@ -34,19 +34,19 @@ public class PlayerModel {
         TileModel[] validMoves = Tile.GetNeighbours();
 
         // Any tile that has a stronger enemy than the player will be set as null
-        for (int i = 0; i < validMoves.Length; i++)
-        {
-            if (validMoves[i] != null)
-            {
-                if (validMoves[i].enemy != null)
-                {
-                    if (validMoves[i].enemy.Strength >= Strength)
-                    {
-                        validMoves[i] = null;
-                    }
-                }
-            }
-        }
+        //for (int i = 0; i < validMoves.Length; i++)
+        //{
+        //    if (validMoves[i] != null)
+        //    {
+        //        if (validMoves[i].enemy != null)
+        //        {
+        //            if (validMoves[i].enemy.Strength >= Strength)
+        //            {
+        //                validMoves[i] = null;
+        //            }
+        //        }
+        //    }
+        //}
 
         return validMoves;
     }
@@ -58,12 +58,27 @@ public class PlayerModel {
         {
             if (t == World.validMoveTiles[i])
             {
-                Tile = t;
                 if (t.enemy != null)
                 {
-                    World.KillEnemyOnTile(t);
+                    if (t.enemy.Enraged)
+                    {
+                        // Debug.Log("Attacking Enraged");
+                        t.enemy.ReceiveDamage(2);
+                        return true;
+                    }
+                    else
+                    {
+                        Tile = t;
+                        World.KillEnemyOnTile(t);
+                        return true;
+                    }
                 }
-                return true;
+                else
+                {
+                    // Move if the tile is empty
+                    Tile = t;
+                    return true;
+                }
             }
         }
 
