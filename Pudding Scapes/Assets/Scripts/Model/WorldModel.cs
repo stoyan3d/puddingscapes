@@ -28,6 +28,9 @@ public class WorldModel {
     public delegate void OnCharacterMoved(PlayerModel player);
     public OnCharacterMoved onCharacterMovedCallback;
 
+    public delegate void OnEnemyKilled(EnemyModel enemy);
+    public OnEnemyKilled onEnemyKilledCallback;
+
     private TileModel[,] tiles;
     public PlayerModel Player { get; protected set; }
     public List<EnemyModel> Enemies { get; protected set; }
@@ -133,8 +136,11 @@ public class WorldModel {
         {
             if (tile == validMoveTiles[i])
             {
-                PlayerModel p = new PlayerModel(tile);
+                // TODO: Expose the player strength in the editor
+                PlayerModel p = new PlayerModel(tile, 3);
                 Player = p;
+
+                KillEnemy(tile.enemy);
 
                 if (onPlayerCreatedCallback != null)
                     onPlayerCreatedCallback.Invoke(Player);
@@ -149,7 +155,9 @@ public class WorldModel {
 
     public EnemyModel CreateEnemy(TileModel tile, EnemyModel.EnemyType type)
     {
-        EnemyModel enemy = new EnemyModel(tile, type);
+        EnemyModel enemy = new EnemyModel(tile, type, 2);
+
+        tile.enemy = enemy;
 
         Enemies.Add(enemy);
 
@@ -157,6 +165,15 @@ public class WorldModel {
             onEnemyCreatedCallback.Invoke(enemy);
 
         return enemy;
+    }
+
+    public void KillEnemy(EnemyModel enemy)
+    {
+        // FIXME: This can cause errors, not even sure if we can do it
+        enemy.Tile.enemy = null;
+        Enemies.Remove(enemy);
+        if (onEnemyKilledCallback != null)
+            onEnemyKilledCallback.Invoke(enemy);
     }
 
     public void MovePlayer(TileModel t)

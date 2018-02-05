@@ -10,6 +10,8 @@ public class TileModel
     public int X { get; protected set; }
     public int Y { get; protected set; }
 
+    public EnemyModel enemy;
+
     public TileModel(int x, int y, TileType type)
     {
         X = x;

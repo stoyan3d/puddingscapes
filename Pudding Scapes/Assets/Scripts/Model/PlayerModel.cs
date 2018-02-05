@@ -6,12 +6,14 @@ public class PlayerModel {
 
     // The current tile the player is on
     public TileModel Tile { get; protected set; }
+    public int Strength { get; protected set; }
 
     WorldModel World { get { return WorldController.instance.World; } }
 
-    public PlayerModel(TileModel tile)
+    public PlayerModel(TileModel tile, int strength)
     {
         Tile = tile;
+        Strength = strength;
         World.validMoveTiles = GetValidMoveTiles();
     }
 
@@ -49,6 +51,11 @@ public class PlayerModel {
             if (t == World.validMoveTiles[i])
             {
                 Tile = t;
+                if (t.enemy != null)
+                {
+                    if (t.enemy.Strength < Strength)
+                        World.KillEnemy(t.enemy);
+                }
             }
         }
     }

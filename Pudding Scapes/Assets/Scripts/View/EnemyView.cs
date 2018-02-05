@@ -13,6 +13,7 @@ public class EnemyView : MonoBehaviour {
     void Start () {
         characterGameObjectMap = new Dictionary<EnemyModel, GameObject>();
         World.onEnemyCreatedCallback += OnEnemyCreated;
+        World.onEnemyKilledCallback += OnEnemyKilled;
 	}
 	
     public void OnEnemyCreated(EnemyModel enemy)
@@ -35,7 +36,12 @@ public class EnemyView : MonoBehaviour {
         sr.sortingLayerName = "Characters";
 
         sr.sprite = GetSprite(enemy.Type.ToString(), "1");
+    }
 
+    public void OnEnemyKilled(EnemyModel enemy)
+    {
+        Destroy(characterGameObjectMap[enemy]);
+        characterGameObjectMap.Remove(enemy);
     }
 
     private Sprite GetSprite(string type, string mode)
