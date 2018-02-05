@@ -12,7 +12,7 @@ public class PlayerView : MonoBehaviour {
     // Use this for initialization
     void Start () {
         characterGameObjectMap = new Dictionary<PlayerModel, GameObject>();
-        World.onCharacterCreatedCallback += OnCharacterCreated;
+        World.onPlayerCreatedCallback += OnCharacterCreated;
         World.onCharacterMovedCallback += OnCharacterMoved;
 	}
 	

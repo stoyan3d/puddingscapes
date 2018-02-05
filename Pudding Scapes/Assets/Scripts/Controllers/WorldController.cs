@@ -26,11 +26,9 @@ public class WorldController : MonoBehaviour {
 
     private void Start()
     {
+        // The first move to get us started
         World.AdvanceTurn();
-    }
 
-    // Update is called once per frame
-    void Update () {
-		
-	}
+        World.CreateEnemies();
+    }
 }

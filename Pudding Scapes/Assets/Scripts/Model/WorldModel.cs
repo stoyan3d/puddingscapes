@@ -20,13 +20,17 @@ public class WorldModel {
     public OnTurnUpdate onTurnUpdateCallback;
 
     public delegate void OnCharacterCreated(PlayerModel player);
-    public OnCharacterCreated onCharacterCreatedCallback;
+    public OnCharacterCreated onPlayerCreatedCallback;
+
+    public delegate void OnEnemyCreated(EnemyModel enemy);
+    public OnEnemyCreated onEnemyCreatedCallback;
 
     public delegate void OnCharacterMoved(PlayerModel player);
     public OnCharacterMoved onCharacterMovedCallback;
 
     private TileModel[,] tiles;
     public PlayerModel Player { get; protected set; }
+    public List<EnemyModel> Enemies { get; protected set; }
 
     public bool GameWon { get; protected set; }
     public bool GameLost { get; protected set; }
@@ -40,22 +44,45 @@ public class WorldModel {
         Width = width;
         Height = height;
 
-        tiles = new TileModel[Width, Height];
+        Enemies = new List<EnemyModel>();
 
-        // Populate the base tiles
+        tiles = new TileModel[Width, Height];
+        int exitX = Random.Range(0, Width);
+
         for (int x = 0; x < Width; x++)
         {
             for (int y = 0; y < Height; y++)
             {
+                // Populate the base tiles
                 tiles[x, y] = new TileModel(x, y, TileModel.TileType.Floor);
+
+                // Add an exit
+                if (tiles[exitX, 0] != null)
+                    tiles[exitX, 0].Type = TileModel.TileType.Exit;
             }
         }
 
-        // Add an exit
-        int exitX = Random.Range(0, Width);
-        tiles[exitX, 0].Type = TileModel.TileType.Exit;
-
         validMoveTiles = GetValidPlayerSpawnTiles();
+    }
+
+    public void CreateEnemies()
+    {
+        for (int x = 0; x < Width; x++)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                // Add the enemies
+                if (tiles[x, y].Type == TileModel.TileType.Floor)
+                {
+                    // Get a random enemy type from our enum
+                    EnemyModel.EnemyType typeRand;
+                    int enemyTypesAmount = System.Enum.GetValues(typeof(EnemyModel.EnemyType)).Length;
+                    typeRand = (EnemyModel.EnemyType)Random.Range(0, enemyTypesAmount);
+
+                    CreateEnemy(tiles[x, y], typeRand);
+                }
+            }
+        }
     }
 
     public TileModel GetTileAt(int x, int y)
@@ -99,18 +126,18 @@ public class WorldModel {
             onTurnUpdateCallback.Invoke();
     }
 
-    public PlayerModel CreateCharacter(TileModel t)
+    public PlayerModel CreateCharacter(TileModel tile)
     {
         Debug.Log("CreateCharacter");
         for (int i = 0; i < validMoveTiles.Length; i++)
         {
-            if (t == validMoveTiles[i])
+            if (tile == validMoveTiles[i])
             {
-                PlayerModel p = new PlayerModel(t);
+                PlayerModel p = new PlayerModel(tile);
                 Player = p;
 
-                if (onCharacterCreatedCallback != null)
-                    onCharacterCreatedCallback.Invoke(Player);
+                if (onPlayerCreatedCallback != null)
+                    onPlayerCreatedCallback.Invoke(Player);
 
                 AdvanceTurn();
 
@@ -118,6 +145,18 @@ public class WorldModel {
             }
         }
         return null;
+    }
+
+    public EnemyModel CreateEnemy(TileModel tile, EnemyModel.EnemyType type)
+    {
+        EnemyModel enemy = new EnemyModel(tile, type);
+
+        Enemies.Add(enemy);
+
+        if (onEnemyCreatedCallback != null)
+            onEnemyCreatedCallback.Invoke(enemy);
+
+        return enemy;
     }
 
     public void MovePlayer(TileModel t)

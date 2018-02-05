@@ -10,8 +10,6 @@ public class TileModel
     public int X { get; protected set; }
     public int Y { get; protected set; }
 
-    public bool canMoveTo; // this does nothing at the moment
-
     public TileModel(int x, int y, TileType type)
     {
         X = x;
