@@ -14,7 +14,7 @@ public class PlayerModel {
     {
         Tile = tile;
         Strength = strength;
-        World.validMoveTiles = GetValidMoveTiles();
+        //World.validMoveTiles = GetValidMoveTiles();
     }
 
     public bool IsPlacementValid(TileModel t)
@@ -31,21 +31,29 @@ public class PlayerModel {
 
     public TileModel[] GetValidMoveTiles()
     {
-        if (World.Turn > 0)
+        TileModel[] validMoves = Tile.GetNeighbours();
+
+        // Any tile that has a stronger enemy than the player will be set as null
+        for (int i = 0; i < validMoves.Length; i++)
         {
-            return Tile.GetNeighbours();
+            if (validMoves[i] != null)
+            {
+                if (validMoves[i].enemy != null)
+                {
+                    if (validMoves[i].enemy.Strength >= Strength)
+                    {
+                        validMoves[i] = null;
+                    }
+                }
+            }
         }
-        else
-        {
-            Debug.Log("There are no valid moves");
-            return null;
-        }
+
+        return validMoves;
     }
 
     public bool MoveToTile(TileModel t)
     {
         // Check if the tile we want to move to is a valid move tile
-        Debug.Log("Player moved");
         for (int i = 0; i < World.validMoveTiles.Length; i++)
         {
             if (t == World.validMoveTiles[i])
@@ -53,8 +61,7 @@ public class PlayerModel {
                 Tile = t;
                 if (t.enemy != null)
                 {
-                    if (t.enemy.Strength < Strength)
-                        World.KillEnemy(t.enemy);
+                    World.KillEnemyOnTile(t);
                 }
                 return true;
             }

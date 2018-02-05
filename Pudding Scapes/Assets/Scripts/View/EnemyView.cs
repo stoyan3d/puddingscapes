@@ -7,24 +7,23 @@ public class EnemyView : MonoBehaviour {
     public Sprite[] enemySprites;
     public GameObject destroyVFX;
 
-    Dictionary<EnemyModel, GameObject> characterGameObjectMap;
+    Dictionary<EnemyModel, SpriteRenderer> characterGameObjectMap;
     WorldModel World { get { return WorldController.instance.World; } }
     private ParticleSystem vfx;
 
     // Use this for initialization
     void Start () {
-        characterGameObjectMap = new Dictionary<EnemyModel, GameObject>();
+        characterGameObjectMap = new Dictionary<EnemyModel, SpriteRenderer>();
         World.onEnemyCreatedCallback += OnEnemyCreated;
         World.onEnemyKilledCallback += OnEnemyKilled;
+        World.onTurnUpdateCallback += UpdateGrowthSprites;
         vfx = Instantiate(destroyVFX).GetComponent<ParticleSystem>();
         vfx.gameObject.SetActive(false);
 	}
 	
-    public void OnEnemyCreated(EnemyModel enemy)
+    private void OnEnemyCreated(EnemyModel enemy)
     {
-        Debug.Log("OnEnemyCreated");
         GameObject charGo = new GameObject();
-        characterGameObjectMap.Add(enemy, charGo);
 
         // Set up the GameObject
         charGo.name = "Enemy_" + enemy.Type;
@@ -40,15 +39,27 @@ public class EnemyView : MonoBehaviour {
         sr.sortingLayerName = "Characters";
 
         sr.sprite = GetSprite(enemy.Type.ToString(), "1");
+        characterGameObjectMap.Add(enemy, sr);
     }
 
-    public void OnEnemyKilled(EnemyModel enemy)
+    private void OnEnemyKilled(EnemyModel enemy)
     {
         vfx.transform.position = new Vector3((float)enemy.Tile.X + 0.5f, (float)enemy.Tile.Y + 0.5f, -1);
         vfx.gameObject.SetActive(true);
         vfx.Play();
         Destroy(characterGameObjectMap[enemy]);
         characterGameObjectMap.Remove(enemy);
+    }
+
+    private void UpdateGrowthSprites()
+    {
+        foreach (var enemy in characterGameObjectMap)
+        {
+            if (enemy.Key.Enraged)
+            {
+                enemy.Value.sprite = GetSprite(enemy.Key.Type.ToString(), "2");
+            }
+        }
     }
 
     private Sprite GetSprite(string type, string mode)

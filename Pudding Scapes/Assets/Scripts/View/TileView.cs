@@ -22,15 +22,7 @@ public class TileView : MonoBehaviour {
         // Create a GameObject for each Tile
         for (int x = 0; x < World.Width; x++)
         {
-            // Create a pool of selectors
-            GameObject selectorGo = new GameObject();
-            selectorGo.name = "Selector";
-            selectorGo.transform.SetParent(transform);
-            SpriteRenderer selectorSprite = selectorGo.AddComponent<SpriteRenderer>();
-            selectorSprite.sortingLayerName = "Selectors";
-            selectorSprite.sprite = selectorTile;
-            selectorGo.SetActive(false);
-            selectorPool.Add(selectorGo);
+            CreateSelectorPool(selectorPool, selectorTile);
 
             for (int y = 0; y < World.Height; y++)
             {
@@ -56,7 +48,6 @@ public class TileView : MonoBehaviour {
                     }
                 }
                     
-
                 if (tileData.Type == TileModel.TileType.Exit)
                     sr.sprite = exitTile;
             }
@@ -90,6 +81,20 @@ public class TileView : MonoBehaviour {
                 }
             }
         }
+    }
+
+    private List<GameObject> CreateSelectorPool(List<GameObject> selectorList, Sprite selectorSprite)
+    {
+        GameObject selectorGo = new GameObject();
+        selectorGo.name = "Selector";
+        selectorGo.transform.SetParent(transform);
+        SpriteRenderer selectorRenderer = selectorGo.AddComponent<SpriteRenderer>();
+        selectorRenderer.sortingLayerName = "Selectors";
+        selectorRenderer.sprite = selectorSprite;
+        selectorGo.SetActive(false);
+        selectorList.Add(selectorGo);
+
+        return selectorList;
     }
 
     private GameObject GetSelector()

@@ -140,7 +140,7 @@ public class WorldModel {
                 PlayerModel p = new PlayerModel(tile, 3);
                 Player = p;
 
-                KillEnemy(tile.enemy);
+                KillEnemyOnTile(tile);
 
                 if (onPlayerCreatedCallback != null)
                     onPlayerCreatedCallback.Invoke(Player);
@@ -155,7 +155,7 @@ public class WorldModel {
 
     public EnemyModel CreateEnemy(TileModel tile, EnemyModel.EnemyType type)
     {
-        EnemyModel enemy = new EnemyModel(tile, type, 2);
+        EnemyModel enemy = new EnemyModel(tile, type, 1 ,3);
 
         tile.enemy = enemy;
 
@@ -167,13 +167,13 @@ public class WorldModel {
         return enemy;
     }
 
-    public void KillEnemy(EnemyModel enemy)
+    public void KillEnemyOnTile(TileModel tile)
     {
-        // FIXME: This can cause errors, not even sure if we can do it
-        enemy.Tile.enemy = null;
-        Enemies.Remove(enemy);
+        Enemies.Remove(tile.enemy);
         if (onEnemyKilledCallback != null)
-            onEnemyKilledCallback.Invoke(enemy);
+            onEnemyKilledCallback.Invoke(tile.enemy);
+
+        tile.enemy = null;
     }
 
     public void MovePlayer(TileModel t)
