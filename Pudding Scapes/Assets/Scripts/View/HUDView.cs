@@ -40,7 +40,7 @@ public class HUDView : MonoBehaviour {
 
     private void UpdateUI()
     {
-        turnText.text = "Turn: " + World.Turn;
+        turnText.text = "" + World.Turns;
 
         if (World.GameWon)
         {

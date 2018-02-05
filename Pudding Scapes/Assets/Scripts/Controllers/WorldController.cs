@@ -6,6 +6,7 @@ public class WorldController : MonoBehaviour {
 
     public int worldWidth = 6;
     public int worldHeigh = 4;
+    public int turns = 10;
 
     public WorldModel World { get; protected set; }
     public static WorldController instance;
@@ -21,7 +22,7 @@ public class WorldController : MonoBehaviour {
         instance = this;
 
         // Create the world
-        World = new WorldModel(worldWidth, worldHeigh);
+        World = new WorldModel(worldWidth, worldHeigh, turns);
 	}
 
     private void Start()

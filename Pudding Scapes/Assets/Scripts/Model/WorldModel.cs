@@ -10,7 +10,7 @@ public class WorldModel {
     // The tile height of the world
     public int Height { get; protected set; }
 
-    public int Turn { get; protected set; }
+    public int Turns { get; protected set; }
 
     public TileModel[] validMoveTiles;
 
@@ -38,14 +38,15 @@ public class WorldModel {
     public bool GameWon { get; protected set; }
     public bool GameLost { get; protected set; }
 
-    public WorldModel(int width, int height)
+    public WorldModel(int width, int height, int turns)
     {
         Instance = this;
 
-        Turn = -1;
+        Turns = -1;
 
         Width = width;
         Height = height;
+        Turns = turns;
 
         Enemies = new List<EnemyModel>();
 
@@ -114,15 +115,17 @@ public class WorldModel {
 
     public void AdvanceTurn()
     {
-        Turn += 1;
-
         // Update our valid move tiles
         if (Player != null)
         {
+            Turns -= 1;
             validMoveTiles = Player.GetValidMoveTiles();
 
             if (Player.Tile.Type == TileModel.TileType.Exit)
                 GameWon = true;
+
+            if (Turns == 0 && GameWon == false)
+                GameLost = true;
         }
 
         if (onTurnUpdateCallback != null)
@@ -183,9 +186,11 @@ public class WorldModel {
             return;
 
         if (Player.MoveToTile(t))
+        {
             AdvanceTurn();
 
-        if (onCharacterMovedCallback != null)
-            onCharacterMovedCallback.Invoke(Player);
+            if (onCharacterMovedCallback != null)
+                onCharacterMovedCallback.Invoke(Player);
+        } 
     }
 }
