@@ -42,6 +42,7 @@ public class PlayerModel {
 
     public void MoveToTile(TileModel t)
     {
+        Debug.Log("Player moved");
         for (int i = 0; i < World.validMoveTiles.Length; i++)
         {
             if (t == World.validMoveTiles[i])

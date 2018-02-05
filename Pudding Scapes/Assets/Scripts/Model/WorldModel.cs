@@ -97,18 +97,23 @@ public class WorldModel {
                 player = p;
 
                 if (onCharacterCreatedCallback != null)
-                    onCharacterCreatedCallback.Invoke(p);
+                    onCharacterCreatedCallback.Invoke(player);
 
                 AdvanceTurn();
 
-                return p;
+                return player;
             }
         }
         return null;
     }
 
-    public void MoveCharacter()
+    public void MovePlayer(TileModel t)
     {
+        player.MoveToTile(t);
 
+        if (onCharacterMovedCallback != null)
+            onCharacterMovedCallback.Invoke(player);
+
+        AdvanceTurn();
     }
 }

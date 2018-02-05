@@ -13,6 +13,7 @@ public class PlayerView : MonoBehaviour {
     void Start () {
         characterGameObjectMap = new Dictionary<PlayerModel, GameObject>();
         World.onCharacterCreatedCallback += OnCharacterCreated;
+        World.onCharacterMovedCallback += OnCharacterMoved;
 	}
 	
     public void OnCharacterCreated(PlayerModel player)
