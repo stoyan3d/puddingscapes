@@ -42,6 +42,7 @@ public class PlayerModel {
 
     public void MoveToTile(TileModel t)
     {
+        // Check if the tile we want to move to is a valdi move tile
         Debug.Log("Player moved");
         for (int i = 0; i < World.validMoveTiles.Length; i++)
         {

@@ -21,11 +21,11 @@ public class MouseController : MonoBehaviour {
         {
             TileModel currTile = GetMouseOverTile();
             // Spawn the player in our frist turn
-            if (World.player == null)
+            if (World.Player == null)
             {
                 World.CreateCharacter(currTile);
             }
-            else if (World.player.Tile != currTile)
+            else if (World.Player.Tile != currTile)
             {
                 World.MovePlayer(currTile);
             }

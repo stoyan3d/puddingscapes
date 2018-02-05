@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class TileModel
 {
-    public enum TileType { Empty, Floor };
+    public enum TileType { Empty, Floor, Exit };
 
-    public TileType Type { get; protected set; }
+    public TileType Type;
     public int X { get; protected set; }
     public int Y { get; protected set; }
 
     public bool canMoveTo; // this does nothing at the moment
 
-    public TileModel(int x, int y)
+    public TileModel(int x, int y, TileType type)
     {
         X = x;
         Y = y;
+        Type = type;
     }
 
     public TileModel[] GetNeighbours()

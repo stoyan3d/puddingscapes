@@ -5,6 +5,7 @@ using UnityEngine;
 public class TileView : MonoBehaviour {
 
     public Sprite baseTile;
+    public Sprite exitTile;
 
     Dictionary<TileModel, GameObject> tileGameObjectMap;
 
@@ -31,8 +32,13 @@ public class TileView : MonoBehaviour {
 
                 // Set up the sprite renderer
                 SpriteRenderer sr = tileGo.AddComponent<SpriteRenderer>();
-                sr.sprite = baseTile;
                 sr.sortingLayerName = "Tiles";
+
+                if (tileData.Type == TileModel.TileType.Floor)
+                    sr.sprite = baseTile;
+
+                if (tileData.Type == TileModel.TileType.Exit)
+                    sr.sprite = exitTile;
             }
         }
 

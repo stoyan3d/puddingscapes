@@ -26,7 +26,10 @@ public class WorldModel {
     public OnCharacterMoved onCharacterMovedCallback;
 
     private TileModel[,] tiles;
-    public PlayerModel player { get; protected set; }
+    public PlayerModel Player { get; protected set; }
+
+    public bool GameWon { get; protected set; }
+    public bool GameLost { get; protected set; }
 
     public WorldModel(int width, int height)
     {
@@ -39,13 +42,18 @@ public class WorldModel {
 
         tiles = new TileModel[Width, Height];
 
+        // Populate the base tiles
         for (int x = 0; x < Width; x++)
         {
             for (int y = 0; y < Height; y++)
             {
-                tiles[x, y] = new TileModel(x, y);
+                tiles[x, y] = new TileModel(x, y, TileModel.TileType.Floor);
             }
         }
+
+        // Add an exit
+        int exitX = Random.Range(0, Width);
+        tiles[exitX, 0].Type = TileModel.TileType.Exit;
 
         validMoveTiles = GetValidPlayerSpawnTiles();
     }
@@ -79,8 +87,13 @@ public class WorldModel {
         Turn += 1;
 
         // Update our valid move tiles
-        if (player != null)
-            validMoveTiles = player.GetValidMoveTiles();
+        if (Player != null)
+        {
+            validMoveTiles = Player.GetValidMoveTiles();
+
+            if (Player.Tile.Type == TileModel.TileType.Exit)
+                GameWon = true;
+        }
 
         if (onTurnUpdateCallback != null)
             onTurnUpdateCallback.Invoke();
@@ -94,14 +107,14 @@ public class WorldModel {
             if (t == validMoveTiles[i])
             {
                 PlayerModel p = new PlayerModel(t);
-                player = p;
+                Player = p;
 
                 if (onCharacterCreatedCallback != null)
-                    onCharacterCreatedCallback.Invoke(player);
+                    onCharacterCreatedCallback.Invoke(Player);
 
                 AdvanceTurn();
 
-                return player;
+                return Player;
             }
         }
         return null;
@@ -109,11 +122,15 @@ public class WorldModel {
 
     public void MovePlayer(TileModel t)
     {
-        player.MoveToTile(t);
+        // Keep advancing if the game isn't over yet
+        if (GameWon || GameLost)
+            return;
 
-        if (onCharacterMovedCallback != null)
-            onCharacterMovedCallback.Invoke(player);
+        Player.MoveToTile(t);
 
         AdvanceTurn();
+
+        if (onCharacterMovedCallback != null)
+            onCharacterMovedCallback.Invoke(Player);
     }
 }

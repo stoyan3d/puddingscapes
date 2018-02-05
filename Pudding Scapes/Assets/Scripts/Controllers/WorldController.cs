@@ -26,8 +26,6 @@ public class WorldController : MonoBehaviour {
 
     private void Start()
     {
-        // Create a character
-        //World.CreateCharacter(null);
         World.AdvanceTurn();
     }
 
