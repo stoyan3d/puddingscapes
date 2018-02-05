@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerView : MonoBehaviour {
 
     public Sprite playerSprite;
+    public float moveDuration = 1f;
 
     Dictionary<PlayerModel, GameObject> characterGameObjectMap;
     WorldModel World { get { return WorldController.instance.World; } }
@@ -14,6 +16,8 @@ public class PlayerView : MonoBehaviour {
         characterGameObjectMap = new Dictionary<PlayerModel, GameObject>();
         World.onPlayerCreatedCallback += OnCharacterCreated;
         World.onCharacterMovedCallback += OnCharacterMoved;
+
+        DOTween.Init();
 	}
 	
     public void OnCharacterCreated(PlayerModel player)
@@ -42,6 +46,8 @@ public class PlayerView : MonoBehaviour {
     {
         GameObject charGo = characterGameObjectMap[player];
         charGo.SetActive(true);
-        charGo.transform.position = new Vector3(player.Tile.X, player.Tile.Y, 0);
+        //Vector3 currentPos = charGo.transform.position;
+        Vector3 targetPos = new Vector3(player.Tile.X, player.Tile.Y, 0);
+        charGo.transform.DOMove(targetPos, moveDuration);
     }
 }

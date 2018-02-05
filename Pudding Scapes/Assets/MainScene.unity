@@ -963,6 +963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSprite: {fileID: 21300000, guid: 7a219be45a989274387d18c9e478a432, type: 3}
+  moveDuration: 0.3
 --- !u!114 &1540002705
 MonoBehaviour:
   m_ObjectHideFlags: 0

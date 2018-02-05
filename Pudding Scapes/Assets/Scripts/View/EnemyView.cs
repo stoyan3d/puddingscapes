@@ -5,15 +5,19 @@ using UnityEngine;
 public class EnemyView : MonoBehaviour {
 
     public Sprite[] enemySprites;
+    public GameObject destroyVFX;
 
     Dictionary<EnemyModel, GameObject> characterGameObjectMap;
     WorldModel World { get { return WorldController.instance.World; } }
+    private ParticleSystem vfx;
 
     // Use this for initialization
     void Start () {
         characterGameObjectMap = new Dictionary<EnemyModel, GameObject>();
         World.onEnemyCreatedCallback += OnEnemyCreated;
         World.onEnemyKilledCallback += OnEnemyKilled;
+        vfx = Instantiate(destroyVFX).GetComponent<ParticleSystem>();
+        vfx.gameObject.SetActive(false);
 	}
 	
     public void OnEnemyCreated(EnemyModel enemy)
@@ -40,6 +44,9 @@ public class EnemyView : MonoBehaviour {
 
     public void OnEnemyKilled(EnemyModel enemy)
     {
+        vfx.transform.position = new Vector3((float)enemy.Tile.X + 0.5f, (float)enemy.Tile.Y + 0.5f, -1);
+        vfx.gameObject.SetActive(true);
+        vfx.Play();
         Destroy(characterGameObjectMap[enemy]);
         characterGameObjectMap.Remove(enemy);
     }
