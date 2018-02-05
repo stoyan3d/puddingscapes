@@ -9,6 +9,7 @@ public class EnemyModel {
     public int Strength { get; protected set; }
     public int MaxStrength { get; protected set; }
     public bool Enraged { get; protected set; }
+    public bool AboutToGrow { get; protected set; }
 
     public enum EnemyType { Green, Orange, Red, Yellow}
     public EnemyType Type { get; protected set; }
@@ -30,7 +31,8 @@ public class EnemyModel {
     // This is called every turn
     public void UpdateGrowth()
     {
-        if (CanGrow() && Strength < MaxStrength)
+        AboutToGrow = CanGrow();
+        if (AboutToGrow && Strength < MaxStrength)
         {
             Strength += 1;
         }
@@ -44,6 +46,11 @@ public class EnemyModel {
 
     public bool CanGrow()
     {
+        // If an enemy is touching two other enemies of the same type 
+        // we allow it to grow
+        int touchCount = 0;
+        bool neighbourCanGrow = false;
+
         TileModel[] neighbours = Tile.GetNeighbours();
 
         for (int i = 0; i < neighbours.Length; i++)
@@ -53,10 +60,16 @@ public class EnemyModel {
                 if (neighbours[i].enemy != null)
                 {
                     if (neighbours[i].enemy.Type == Type)
-                        return true;
+                    {
+                        touchCount++;
+                        neighbourCanGrow = neighbours[i].enemy.AboutToGrow;
+                    }   
                 }
             }
         }
+
+        if (touchCount >= 2 || neighbourCanGrow)
+            return true;
 
         return false;
     }
