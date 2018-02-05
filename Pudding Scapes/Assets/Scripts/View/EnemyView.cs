@@ -64,7 +64,7 @@ public class EnemyView : MonoBehaviour {
 
     private Sprite GetSprite(string type, string mode)
     {
-        string spriteName = "Pudding_" + type + "_" + mode;
+        string spriteName = "Enemy_" + type + "_" + mode;
         for (int i = 0; i < enemySprites.Length; i++)
         {
             if (enemySprites[i].name == spriteName)
