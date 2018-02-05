@@ -44,6 +44,9 @@ TagManager:
   - name: Tiles
     uniqueID: 1366149287
     locked: 0
+  - name: Selectors
+    uniqueID: 987235781
+    locked: 0
   - name: Characters
     uniqueID: 2738136583
     locked: 0
